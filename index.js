@@ -4,10 +4,10 @@ const logger = require('./utils/logger')
 
 const ws = require('ws')
 const socket = require('./controllers/socket')
-
+/*
 app.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`)
 })
-
-const server = new ws.Server({port:4000})
+*/
+const server = new ws.Server({port:10000})
 socket.setserver(server)
