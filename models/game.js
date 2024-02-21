@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 
-const infoSchema = new mongoose.Schema({
-  content:  String,
+const gameSchema = new mongoose.Schema({
+  idA: Number,
+  idB: Number,
+  heartnum: Number,
+  dartsnum: Number,
 })
 
-infoSchema.set('toJSON', {
+gameSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -12,4 +15,4 @@ infoSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Info', infoSchema)
+module.exports = mongoose.model('Game', gameSchema)
