@@ -10,7 +10,6 @@ gameRouter.get('/', (request, response) => {
 gameRouter.get('/totalgames', (request, response) => {
   Game.countDocuments().then(number => {
     response.json({item:number})
-    console.log(number)
   })
 })
 

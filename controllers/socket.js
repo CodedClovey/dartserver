@@ -7,7 +7,7 @@ const setserver = async (hook) => {
   await Game.deleteMany({})
 
   hook.on('connection', async (stream, req) => {
-    console.log("yoke")
+
     let started = false
     let selfid = null
 
@@ -19,7 +19,6 @@ const setserver = async (hook) => {
       }
       else{
         stream.send(JSON.stringify(message))
-        
       }
     }
     let enemysender = null
