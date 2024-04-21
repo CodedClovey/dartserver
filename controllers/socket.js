@@ -3,6 +3,10 @@ const Game = require('../models/game')
 
 let messegers ={}
 
+const messegercount= () => {
+  return Object.keys(messegers).length
+}
+
 const setserver = async (hook) => {
   await Game.deleteMany({})
 
@@ -10,6 +14,7 @@ const setserver = async (hook) => {
 
     let started = false
     let selfid = null
+    let login = false
 
     const selfsender = (message) => {
       if(message[0] == "started"){
@@ -26,18 +31,20 @@ const setserver = async (hook) => {
     stream.on('message' ,async (message) => {
       let data = JSON.parse(message)
 
-      if(!started){
-        selfid = data.idA
-        let note = await Game.findOne({ idB:null })
+      if(!login){
+        selfid = data.id
+        messegers[data.id] = selfsender
+        login = true
+      }
+      else if(!started){
+        let note = await Game.findOne({ idB:null, dartsnum:data.dartsnum, heartnum:data.heartnum})
         
         if (note == null) {
           const newgame = new Game(data)
           await newgame.save()
-          messegers[data.idA] = selfsender
-        } 
+        }
         else {
           let thegame = await Game.findByIdAndUpdate(note.id, { idB:data.idA } )
-          messegers[data.idA] = selfsender
           enemysender = messegers[thegame.idA]
           enemysender(["started",selfsender])
           started = true
@@ -61,5 +68,7 @@ const setserver = async (hook) => {
 }
 
 module.exports = {
-  setserver
+  setserver,
+  messegercount
 }
+
