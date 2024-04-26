@@ -37,6 +37,8 @@ const setserver = async (hook) => {
         login = true
       }
       else if(!started){
+        
+        await Game.findOneAndDelete({idA:selfid})
         let note = await Game.findOne({ idB:null, dartsnum:data.dartsnum, heartnum:data.heartnum})
         
         if (note == null) {
