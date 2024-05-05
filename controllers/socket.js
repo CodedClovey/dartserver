@@ -49,12 +49,26 @@ const setserver = async (hook) => {
           let thegame = await Game.findByIdAndUpdate(note.id, { idB:data.idA } )
           enemysender = messegers[thegame.idA]
           enemysender(["started",selfsender])
+          console.log("ok")
           started = true
           stream.send(JSON.stringify({item:"begin"}))
         }
       }
       else {
-        enemysender(data)
+        if(data.item == "kill"){
+          console.log("x")
+          await Game.findOneAndDelete({idA:selfid})
+          await Game.findOneAndDelete({idB:selfid})
+          started = false
+          enemysender(data)
+
+          enemysender = null
+          note = null
+        }
+        else{
+          enemysender(data)
+          console.log("ok")
+        }
       }
       console.log(data)
 
