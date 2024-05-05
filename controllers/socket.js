@@ -47,8 +47,10 @@ const setserver = async (hook) => {
         }
         else {
           let thegame = await Game.findByIdAndUpdate(note.id, { idB:data.idA } )
-          enemysender = messegers[thegame.idA]
-          enemysender(["started",selfsender])
+          if(messegers[thegame.idA] != null) {
+            enemysender = messegers[thegame.idA]
+            enemysender(["started",selfsender])
+          }
           console.log("ok")
           started = true
           stream.send(JSON.stringify({item:"begin"}))
